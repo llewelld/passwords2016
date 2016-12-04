@@ -1,0 +1,41 @@
+digraph Semantic {
+	splines = line;
+	margin = "0,0";
+	delegator [
+		shape = circle;
+		label = <Delegator<BR/>user<BR/><I>Rebecca</I>>;
+		fixedsize = shape;
+		height = 1;
+		width = 1;
+	];
+	delegatee [
+		shape = circle;
+		label = <Delegatee<BR/>user <I>Eric</I>>;
+		size = shape;
+		fixedsize = shape;
+		height = 1;
+		width = 1;
+	];
+	delegated [
+		shape = circle;
+		label = <Delegated<BR/>service<BR/><I>DumpIt</I>>;
+		size = shape;
+		fixedsize = shape;
+		height = 1;
+		width = 1;
+	];
+
+	delegator -> delegated [
+		label = <has permission to use>;
+		len = 3.2;
+	];
+	delegator -> delegatee [
+		label = <grants permission (to use <I>D</I> within constraints <I>C</I>) to>;
+		len = 5.2;
+	];
+	delegatee -> delegated [
+		label = <uses (within constrants <I>C</I>)>;
+		len = 3.2;
+	];
+}
+
