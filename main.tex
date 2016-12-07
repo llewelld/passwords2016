@@ -161,6 +161,8 @@ It begins.
 \end{frame}
 \note{
 \setlength{\parskip}{0.5em}
+Graham
+
 \begin{enumerate}
 \item A password generating tool.
 \item The user provides a site and a master password.
@@ -186,14 +188,16 @@ It begins.
 
 \end{frame}
 \note{
-\setlength{\parskip}{0.5em}
+\setlength{\parskip}{0.0em}
+Graham
+
 \begin{enumerate}
 \item Published at USENIX 2005.
-\item Authored by Blake Ross, Collin Jackson, Nick Mayake, Dan Boneh and John C Mitchell.
+\item Blake Ross, Collin Jackson, Nick Mayake, Dan Boneh and John C Mitchell.
 \item At the time at Stanford, but now in various places.
 \begin{enumerate}
 \item Blake co-founded Mozilla, until recently Director of Product at Facebook.
-\item Jackson founded Apportable for cross-platform app development.
+\item Jackson founded Apportable (cross-platform app dev).
 \item Miyake was a student at the time.
 \item Dan Boneh is Professor of Computer Science and Electrical Engineering at Stanford.
 \item John C Mitchell is Professor of Computer Science and Electrical Engineering at Stanford.
@@ -213,9 +217,9 @@ It begins.
 \setlength{\parskip}{0.5em}
 There are other examples of client-side hashing techniques
 \begin{enumerate}
-\item Passpet
-\item PwdHash++
-\item RndPhrase
+\item Passpet \\ \url{http://passpet.org}
+\item PwdHash++ \\ IJAEST Vol 3, Issue 1, 2011
+\item RndPhrase \\ \url{https://github.com/RndPhrase}
 \end{enumerate}
 \end{column}
 \begin{column}[T]{0.4\textwidth}
@@ -227,11 +231,15 @@ There are other examples of client-side hashing techniques
 
 \end{frame}
 \note{
-\setlength{\parskip}{0.5em}
+\setlength{\parskip}{0.0em}
+David
+
 \begin{enumerate}
 \item Android app by Philipp Wolfer, updated April 2015 \url{https://play.google.com/store/apps/details?id=com.uploadedlobster.PwdHash}.
 \item Firefox plugin updated February 2016 \url{https://addons.mozilla.org/en-US/firefox/addon/pwdhash/}
-\item PwdHash generates a unique password for the site using a one-way hash function.
+\item PassPet: SOUPS 2006, Ka-Ping Yee, Kragen Sitaker
+\item PwdHash++: 2011, Venkata Prasad Reddy, Vedala Radha, Manik Jindal, International Journal of Advanced Engineering Sciences and Technologies
+\item RndPhrase: Ronni Elken Lindsgaard, MSc, University of Copenhagen 
 \end{enumerate}
 }
 
@@ -253,6 +261,9 @@ There are other examples of client-side hashing techniques
 \end{frame}
 \note{
 \setlength{\parskip}{0.5em}
+Graham
+
+High-level overview
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -273,6 +284,9 @@ There are other examples of client-side hashing techniques
 \end{frame}
 \note{
 \setlength{\parskip}{0.5em}
+Graham
+
+High-level overview
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -293,6 +307,9 @@ There are other examples of client-side hashing techniques
 \end{frame}
 \note{
 \setlength{\parskip}{0.5em}
+Graham
+
+High-level overview
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -313,6 +330,9 @@ There are other examples of client-side hashing techniques
 \end{frame}
 \note{
 \setlength{\parskip}{0.5em}
+Graham
+
+High-level overview
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -328,13 +348,13 @@ There are other examples of client-side hashing techniques
 \begin{column}[T]{0.6\textwidth}
 \setlength{\parskip}{0.5em}
 
-Unique to each site.
+Unique to each site
 
-Contains complex mix of characters.
+Contains complex mix of characters
 
-Contains at least $n$ characters.
+Contains at least $n$ characters
 
-Easy for the owner to remember, hard for anyone else to guess.
+Easy for the owner to remember, hard for anyone else to guess
 
 \end{column}
 \begin{column}[T]{0.4\textwidth}
@@ -347,6 +367,11 @@ Easy for the owner to remember, hard for anyone else to guess.
 \end{frame}
 \note{
 \setlength{\parskip}{0.5em}
+Graham
+
+The output from PwdHash appears to fulfil the requirements of what many people consider to be good password hygiene.
+
+As a result, PwdHash passwords will achieve good `password strength' scores.
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -360,15 +385,15 @@ Easy for the owner to remember, hard for anyone else to guess.
 \begin{column}[T]{0.5\textwidth}
 \setlength{\parskip}{0.5em}
 
-No database of passwords.
+No database of passwords
 
-Can be used anywhere.
+Can be used anywhere
 
-Integrates into the browser.
+Integrates into the browser
 
-Protects against phishing.
+Protects against phishing
 
-Can tailor the output to suit site restrictions.
+Can tailor the output to suit site restrictions
 
 \end{column}
 \begin{column}[T]{0.5\textwidth}
@@ -379,6 +404,9 @@ Can tailor the output to suit site restrictions.
 \end{frame}
 \note{
 \setlength{\parskip}{0.5em}
+Graham
+
+There are also some other more practical benefits that PwdHash offers.
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -399,12 +427,30 @@ Can tailor the output to suit site restrictions.
 
 \end{frame}
 \note{
-\setlength{\parskip}{0.5em}
+\setlength{\parskip}{-0.3em}
+David
+
+{\tiny
 \begin{enumerate}
 \item HMAC-MD5 is 16-types long.
 \item Amounts to 22 characters in base64.
 \item Passwords over 22 characters have A or zero byte repeatedly added, then no rotation.
 \end{enumerate}
+
+Important lines:
+\begin{enumerate}
+\item[5:] The output data is taken from base64 HMAC-MD5 of password and domain.
+\item[6:] Final size will be two characters longer than input
+\item[7:] Check whether any non-alphanumeric characters.
+\item[13:] Four characters are removed that will be added back.
+\item[18:] Add a capital letter.
+\item[19:] Add a lowercase letter.
+\item[20:] Add a number.
+\item[21:] Add non-alphanumeric if necessary.
+\item[23:] Remove non-alphanumerics if necessary.
+\item[28:] Rotate the result.
+\end{enumerate}
+}%
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -419,12 +465,14 @@ Can tailor the output to suit site restrictions.
 \setlength{\parskip}{0.5em}
 
 \renewcommand{\arraystretch}{1.5}
-\begin{tabular}{l|l|l}
-{\bf Password} & {\bf Site} & {\bf PwdHash password} \\ \hline
-passwords2016.rub.de & password & KC3n2GBOg6 \\
-passwords2016.rub.de & password? & VRGyE+5B0Ws \\
-linkedin.com & password & WmPLC7OyIq \\
-linkedin.com & password012345 & QDHU4ZGr7dNfZOym \\
+\begin{tabular}{l|p{2.5cm}|p{3.5cm}}
+{\bf Site} & {\bf Password} & {\bf PwdHash password} \\ \hline
+passwords2016.\colorbox{yellow}{rub.de} & passwords16 & 5CprBBsNjyvHQ \\
+passwords2016.\colorbox{yellow}{rub.de} & passwords*16 & 3iL04G1ruj/rrK \\
+www.\colorbox{yellow}{rub.de} & passwords*16 & 3iL04G1ruj/rrK \\
+www.\colorbox{yellow}{linkedin.com} & passwords16 & HDOo1jM1emThY \\
+www.\colorbox{yellow}{linkedin.com} & password012345 & QDHU4ZGr7dNfZOym \\
+www.\colorbox{yellow}{linkedin.com} & 0123456789\newline 0123456789012 & aRnvjjBB5oV\newline 2f4b2ZA9EPAAAA \\
 \end{tabular}
 \end{column}
 \end{columns}
@@ -432,6 +480,16 @@ linkedin.com & password012345 & QDHU4ZGr7dNfZOym \\
 \end{frame}
 \note{
 \setlength{\parskip}{0.5em}
+David
+
+Things to note:
+\begin{enumerate}
+\item Changing the password changes the hash. Adding a non-alphanumeric does the same for the output.
+\item Changing the subdomain has no effect.
+\item Chanding the domain changes the password.
+\item The output increases in length with the password.
+\item Go over 22 characters and it just appends `A's.
+\end{enumerate}
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -462,9 +520,9 @@ Discovered 1 million unique hashes in 12 months to May 2015
 \end{frame}
 \note{
 \setlength{\parskip}{0.5em}
-\begin{enumerate}
-\item ??
-\end{enumerate}
+Graham
+
+Saw similar results in David Jaeger's talk analysing publicly leaked credentials yesterday.
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -472,15 +530,17 @@ Discovered 1 million unique hashes in 12 months to May 2015
 \begin{frame}
 \frametitle{Salting and Hashing}
 \framesubtitle{Modern best practice}
-\setlength{\parskip}{0.5em}
+\setlength{\parskip}{0.55em}
 
 \begin{columns}[T]
-\begin{column}[T]{1.0\textwidth}
+\begin{column}[T]{0.5\textwidth}
 \setlength{\parskip}{0.5em}
 
-Don't store the password in plaintext.
+Don't store the password in plaintext
 
-Store a salted, hashed version:
+Store a salted, hashed version
+
+Use a slow hash function
 
 $$
 V = S \concat H(P \concat S)
@@ -492,8 +552,11 @@ $S$ a random salt,
 
 $P$ the password,
 
-$H$ is a one-way hash function.
+$H$ is a one-way hash function
 
+\end{column}
+\begin{column}[T]{0.45\textwidth}
+\includegraphics[width=1.0\textwidth]{boris}
 \end{column}
 \end{columns}
 
@@ -501,6 +564,8 @@ $H$ is a one-way hash function.
 \end{frame}
 \note{
 \setlength{\parskip}{0.5em}
+David
+
 \begin{enumerate}
 \item LinkedIn used unsalted SHA1.
 \item Yahoo (late 2014, 500 million compromised accounts), mostly bcrypt hashed.
@@ -517,13 +582,13 @@ $H$ is a one-way hash function.
 \begin{columns}[T]
 \begin{column}[T]{1.0\textwidth}
 \setlength{\parskip}{0.5em}
-Salting prevents use of rainbow tables.
+Salting prevents use of rainbow tables
 
-Hashes must be reversed by generating the hash and comparing.
+Hashes must be `reversed' by generating the hash and comparing
 
-Recovery tools have responded by utilising GPUs.
+Recovery tools have responded by utilising GPUs
 
-GPUs aren't necessarily as fast as CPUs, but are highly parallelisable.
+GPUs aren't necessarily as fast as CPUs, but are highly parallelisable
 
 \end{column}
 \end{columns}
@@ -532,9 +597,7 @@ GPUs aren't necessarily as fast as CPUs, but are highly parallelisable.
 \end{frame}
 \note{
 \setlength{\parskip}{0.5em}
-\begin{enumerate}
-\item ??
-\end{enumerate}
+David
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -573,6 +636,8 @@ Jeremy Gosney, Sagitta
 \end{frame}
 \note{
 \setlength{\parskip}{0.5em}
+David
+
 \begin{enumerate}
 \item For SHA1, a 12-character base64 password space can be exhausted in just over 12 hours.
 \end{enumerate}
@@ -589,9 +654,9 @@ Jeremy Gosney, Sagitta
 \begin{column}[T]{1.0\textwidth}
 \setlength{\parskip}{0.5em}
 
-Scanning entire password space still not tractable.
+Scanning entire password space still not tractable
 
-Use dictionaries and rules to refine.
+Use dictionaries and rules to refine
 
 \begin{enumerate}
 \item Masks
@@ -600,16 +665,16 @@ Use dictionaries and rules to refine.
 \item Rule-based
 \end{enumerate}
 
-Generated PwdHash passwords aren't susceptible to these attacks.
-
+Generated PwdHash passwords aren't susceptible to these attacks
 
 \end{column}
 \end{columns}
 
-
 \end{frame}
 \note{
 \setlength{\parskip}{0.5em}
+Graham
+
 \begin{enumerate}
 \item Uniform distribution of characters.
 \item Would require complete coverage of the password space.
@@ -629,9 +694,9 @@ Generated PwdHash passwords aren't susceptible to these attacks.
 \end{frame}
 \note{
 \setlength{\parskip}{0.5em}
-\begin{enumerate}
-\item ??
-\end{enumerate}
+David
+
+This shows the standard recovery process for checking a single input value for a given leaked password.
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -646,9 +711,13 @@ Generated PwdHash passwords aren't susceptible to these attacks.
 \end{frame}
 \note{
 \setlength{\parskip}{0.5em}
-\begin{enumerate}
-\item ??
-\end{enumerate}
+David
+
+We introduce the PwdHash client-side step into the recovery process.
+
+For PwdHash the salt $S_1$ is always empty.
+
+The value $P_M$ is the password that would usually be sent to the server. For our approch it's just an intermediate value.
 }
 
 
@@ -663,9 +732,20 @@ Generated PwdHash passwords aren't susceptible to these attacks.
 \begin{column}[T]{1.0\textwidth}
 \setlength{\parskip}{0.5em}
 
-Hashcat performs a variety of clever optimisations.
+Hashcat performs a variety of clever optimisations
 
-Can't just add the PwdHash straight in.
+Change only the first four bytes of the password
+
+${\tt AAAA}\, {\tt pass}\, {\tt word}$ \\
+$\underbrace{{\tt\vphantom{p}AAAB}}_{w[0]}\underbrace{{\tt\vphantom{p}pass}}_{w[1]}\underbrace{{\tt\vphantom{p}word}}_{w[2]}$
+
+MD5 meet-in-the-middle-attack, see Jens Steube's Passwords13 talk: \url{https://hashcat.net/events/p13/}
+
+SHA1 optimisation
+\begin{enumerate}
+\item 512-bit input extended to 2560-bits using XOR and ROL
+\item Precompute inputs without first four bytes
+\end{enumerate}
 
 \end{column}
 \end{columns}
@@ -674,11 +754,9 @@ Can't just add the PwdHash straight in.
 \end{frame}
 \note{
 \setlength{\parskip}{0.5em}
-\begin{enumerate}
-\item A password generating tool.
-\item The user provides a site and a master password.
-\item PwdHash generates a unique password for the site using a one-way hash function.
-\end{enumerate}
+David
+
+Unfortunately it's not quite this simple, because of the hashcat optimisations.
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -693,9 +771,58 @@ Can't just add the PwdHash straight in.
 \end{frame}
 \note{
 \setlength{\parskip}{0.5em}
-\begin{enumerate}
-\item ??
-\end{enumerate}
+David
+
+This is the usual hashcat approach with the base pre-computation stage as an optimisation.
+
+The pre-computation step assumes only the first four characters will change.
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{PwdHash Attack}
+\framesubtitle{A problem}
+\setlength{\parskip}{0.5em}
+
+\begin{columns}[T]
+\begin{column}[T]{1.0\textwidth}
+\setlength{\parskip}{0.5em}
+
+The PwdHash step messes up the optimisation
+
+${\tt AAAA}\, {\tt pass}\, {\tt word} \quad \longmapsto \quad {\tt KZvm}\, {\tt M4fs}\, {\tt sCZ6}\, {\tt 96\quad}$ \\
+$\underbrace{{\tt\vphantom{p}AAAB}}_{w[0]}\underbrace{{\tt\vphantom{p}pass}}_{w[1]}\underbrace{{\tt\vphantom{p}word}}_{w[2]} \quad \longmapsto \quad \underbrace{{\tt\vphantom{p}9us7}}_{w[0]}\underbrace{{\tt\vphantom{p}NzXw}}_{w[1]}\underbrace{{\tt\vphantom{p}LaCJ}}_{w[2]}\underbrace{{\tt\vphantom{p}Zw\quad }}_{w[3]}$
+
+\end{column}
+\end{columns}
+
+
+\end{frame}
+\note{
+\setlength{\parskip}{0.5em}
+David
+
+Unfortunately this assumption no longer applies for us.
+
+A small change in the input value results in all characters changing.
+
+Consequently we can't perform the same base pre-computation optimisation..
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{PwdHash Attack}
+\framesubtitle{Add the PwdHash hash into the hashcat process}
+\setlength{\parskip}{0.5em}
+
+\includegraphics[width=1.0\textwidth]{process-orig}
+
+\end{frame}
+\note{
+\setlength{\parskip}{0.5em}
+David
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -710,9 +837,13 @@ Can't just add the PwdHash straight in.
 \end{frame}
 \note{
 \setlength{\parskip}{0.5em}
-\begin{enumerate}
-\item ??
-\end{enumerate}
+David
+
+The pre-computation could be used for multiple passwords. Now we must do it for every password.
+
+So we move some of the pre-computation into the main loop.
+
+You might expect that this would have a performance hit, which we'll look at later.
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -748,9 +879,7 @@ Can't just add the PwdHash straight in.
 \end{frame}
 \note{
 \setlength{\parskip}{0.5em}
-\begin{enumerate}
-\item ??
-\end{enumerate}
+Graham
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -786,9 +915,11 @@ Costs \$0.65 per hour
 \end{frame}
 \note{
 \setlength{\parskip}{0.5em}
-\begin{enumerate}
-\item ??
-\end{enumerate}
+Graham
+
+Not the best machine or graphics card.
+
+However, cheaper than buying a machine from scratch.
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -803,9 +934,20 @@ Costs \$0.65 per hour
 \end{frame}
 \note{
 \setlength{\parskip}{0.5em}
-\begin{enumerate}
-\item ??
-\end{enumerate}
+David
+
+\begin{tabular}{p{3.7cm}|p{2.6cm}|p{3.0cm}}
+	{\bf Hash type} & {\bf Speed (MH/s)} & {\bf Overhead (factor)} \\ \hline
+	MD5 & 2316.7 & 1.0 \\
+	MD5 PwdHash & 2410.7 & 0.961 \\
+	SHA1 & 616.9 & 1.0 \\
+	SHA1 PwdHash & 645.1 & 0.956 \\
+	HMAC-MD5 & 780.3 & 1.0 \\
+	HMAC-MD5 PwdHash & 76.9527 & 10.140 \\
+	Stratfor.com MD5 & 42.0085 & n/a \\
+	Rootkit.com MD5 & 42.1938 & n/a \\
+	Linkedin.com SHA1 & 39.7622 & n/a \\
+\end{tabular}%
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -839,9 +981,43 @@ Costs \$0.65 per hour
 \end{frame}
 \note{
 \setlength{\parskip}{0.5em}
-\begin{enumerate}
-\item ??
-\end{enumerate}
+David
+
+\begin{tabular}{p{3.7cm}|p{2.6cm}|p{3.0cm}}
+	{\bf Hash type} & {\bf Speed (MH/s)} & {\bf Overhead (factor)} \\ \hline
+	MD5 & 2316.7 & 1.0 \\
+	MD5 PwdHash & 2410.7 & 0.961 \\
+	SHA1 & 616.9 & 1.0 \\
+	SHA1 PwdHash & 645.1 & 0.956 \\
+	HMAC-MD5 & 780.3 & 1.0 \\
+	HMAC-MD5 PwdHash & 76.9527 & 10.140 \\
+	Stratfor.com MD5 & 42.0085 & n/a \\
+	Rootkit.com MD5 & 42.1938 & n/a \\
+	Linkedin.com SHA1 & 39.7622 & n/a \\
+\end{tabular}%
+}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Results}
+\framesubtitle{Master passwords}
+\setlength{\parskip}{0.5em}
+
+\begin{columns}[T]
+\begin{column}[T]{1.0\textwidth}
+\setlength{\parskip}{0.5em}
+\centering
+Video demo
+
+\end{column}
+\end{columns}
+
+
+\end{frame}
+\note{
+\setlength{\parskip}{0.5em}
+David
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -878,9 +1054,7 @@ Costs \$0.65 per hour
 \end{frame}
 \note{
 \setlength{\parskip}{0.5em}
-\begin{enumerate}
-\item ??
-\end{enumerate}
+Graham
 }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -894,13 +1068,13 @@ Costs \$0.65 per hour
 \begin{column}[T]{0.6\textwidth}
 \setlength{\parskip}{0.5em}
 
-Use slow hashing algorithm.
+Use slow hashing algorithm
 
-Include the client salt.
+Include the client salt
 
-Fix hash overrun bug.
+Fix hash overrun bug
 
-Emphasise importance of strong master password.
+Emphasise importance of strong master password
 
 \end{column}
 \begin{column}[T]{0.4\textwidth}
@@ -909,12 +1083,15 @@ Emphasise importance of strong master password.
 \end{column}
 \end{columns}
 
-
 \end{frame}
 \note{
 \setlength{\parskip}{0.5em}
+Graham
+
 \begin{enumerate}
-\item ??
+\item We use PBKDF2-SHA512.
+\item Ideally might use bcrypt or Argon2
+\item The hash is stored in local browser storage and isn't necessarily secret
 \end{enumerate}
 }
 
@@ -951,9 +1128,6 @@ Emphasise importance of strong master password.
 \end{frame}
 \note{
 \setlength{\parskip}{0.5em}
-\begin{enumerate}
-\item ??
-\end{enumerate}
 }
 
 
@@ -970,34 +1144,34 @@ Emphasise importance of strong master password.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}
-\frametitle{PwdHash}
-\framesubtitle{Blank template page}
-\setlength{\parskip}{0.5em}
+%\begin{frame}
+%\frametitle{PwdHash}
+%\framesubtitle{Blank template page}
+%\setlength{\parskip}{0.5em}
 
-\begin{columns}[T]
-\begin{column}[T]{0.6\textwidth}
-\setlength{\parskip}{0.5em}
-??
+%\begin{columns}[T]
+%\begin{column}[T]{0.6\textwidth}
+%\setlength{\parskip}{0.5em}
+%??
 
-??
+%??
 
-??
-\end{column}
-\begin{column}[T]{0.4\textwidth}
-\vspace{0.0em}
-\includegraphics[width=1.0\textwidth]{addme}
-\end{column}
-\end{columns}
+%??
+%\end{column}
+%\begin{column}[T]{0.4\textwidth}
+%\vspace{0.0em}
+%\includegraphics[width=1.0\textwidth]{addme}
+%\end{column}
+%\end{columns}
 
 
-\end{frame}
-\note{
-\setlength{\parskip}{0.5em}
-\begin{enumerate}
-\item ??
-\end{enumerate}
-}
+%\end{frame}
+%\note{
+%\setlength{\parskip}{0.5em}
+%\begin{enumerate}
+%\item ??
+%\end{enumerate}
+%}
 
 
 
